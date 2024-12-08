@@ -1,4 +1,4 @@
-package com.FastFoodCRUD.Controller;
+package com.FastFoodCRUD.Controller.Admin;
 
 import java.io.IOException;
 
