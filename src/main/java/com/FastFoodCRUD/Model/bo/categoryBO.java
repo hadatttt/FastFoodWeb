@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.FastFoodCRUD.Model.bean.category;
-import com.FastFoodCRUD.Model.dao.ConnectDatabase;
 import com.FastFoodCRUD.Model.dao.categoryDAO;
 
 public class categoryBO {

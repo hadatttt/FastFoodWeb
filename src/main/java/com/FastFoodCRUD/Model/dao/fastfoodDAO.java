@@ -6,30 +6,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.FastFoodCRUD.Model.bean.fastFood;
+import com.FastFoodCRUD.Model.bean.fastfood;
 import com.FastFoodCRUD.Model.dao.ConnectDatabase;
 
-public class fastFoodDAO implements DAOInterface<fastFood>{
-	private static fastFoodDAO instance;
+public class fastfoodDAO implements DAOInterface<fastfood>{
+	private static fastfoodDAO instance;
 	private Connection connect = ConnectDatabase.getConnection();
-	private fastFoodDAO() {
+	private fastfoodDAO() {
 	}
-	public static fastFoodDAO getInstance() {
+	public static fastfoodDAO getInstance() {
 		if (instance == null)
-			instance = new fastFoodDAO();
+			instance = new fastfoodDAO();
 		return instance;
 	}
 
 	@Override
-	public void Insert(fastFood fastFood) {
-		String query = "insert into fastfood(imgUrl, fastFoodName, description, price, categoryId) value(?,?,?,?,?)";
+	public void Insert(fastfood fastFood) {
+		String query = "insert into mon_an(ten_mon,mo_ta,phi,ma_danh_muc,img) value(?,?,?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
-			pst.setString(1, fastFood.getImgUrl());
-			pst.setString(2, fastFood.getFastFoodName());
-			pst.setString(3, fastFood.getDescription());
-			pst.setFloat(4, fastFood.getPrice());
-			pst.setInt(5, fastFood.getCategoryId());
+			pst.setString(1, fastFood.getFastFoodName());
+			pst.setString(2, fastFood.getDescription());
+			pst.setFloat(3, fastFood.getPrice());
+			pst.setInt(4, fastFood.getCategoryId());
+			pst.setString(5, fastFood.getImgUrl());
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -37,15 +37,16 @@ public class fastFoodDAO implements DAOInterface<fastFood>{
 	}
 
 	@Override
-	public void Update(fastFood fastFood) {
-		 String query = "UPDATE fastFood SET imgUrl = ?, fastFoodName = ?, description = ?, price = ?, categoryId WHERE fastFoodId = ?";
+	public void Update(fastfood fastFood) {
+		 String query = "UPDATE mon_an"
+		 		+ " SET ten_mon = ?, mo_ta = ?, phi = ?, ma_danh_muc =  ?, img = ? WHERE id = ?";
 			try {
 				PreparedStatement pst = connect.prepareStatement(query);
-				pst.setString(1, fastFood.getImgUrl());
-				pst.setString(2, fastFood.getFastFoodName());
-				pst.setString(3, fastFood.getDescription());
-				pst.setFloat(4, fastFood.getPrice());
-				pst.setInt(5, fastFood.getCategoryId());
+				pst.setString(1, fastFood.getFastFoodName());
+				pst.setString(2, fastFood.getDescription());
+				pst.setFloat(3, fastFood.getPrice());
+				pst.setInt(4, fastFood.getCategoryId());
+				pst.setString(5, fastFood.getImgUrl());
 				pst.setInt(6, fastFood.getFastFoodId());
 				pst.executeUpdate();
 			} catch (SQLException e) {
@@ -54,8 +55,8 @@ public class fastFoodDAO implements DAOInterface<fastFood>{
 	}
 
 	@Override
-	public void Delete(fastFood fastFood) {
-		String query = "DELETE from fastfood where fastFoodId = ?";
+	public void Delete(fastfood fastFood) {
+		String query = "DELETE from mon_an where id = ?";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setInt(1, fastFood.getFastFoodId());
@@ -67,14 +68,14 @@ public class fastFoodDAO implements DAOInterface<fastFood>{
 	}
 
 	@Override
-	public ArrayList<fastFood> getAll() {
-		ArrayList<fastFood> fastFoodArrayList = new ArrayList<fastFood>();
+	public ArrayList<fastfood> getAll() {
+		ArrayList<fastfood> fastFoodArrayList = new ArrayList<fastfood>();
 		try {
-			String sqlQuery = "SELECT* FROM fastFood";
+			String sqlQuery = "SELECT* FROM mon_an";
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				fastFood employee = new fastFood(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getFloat(5), res.getInt(6));
+				fastfood employee = new fastfood(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getFloat(5), res.getInt(6));
 				fastFoodArrayList.add(employee);
 			}
 		} catch (SQLException e) {
@@ -83,16 +84,16 @@ public class fastFoodDAO implements DAOInterface<fastFood>{
 		return fastFoodArrayList;
 	}
 	
-	public fastFood getfastFoodById(int id) {
-	    fastFood fastFood = null; 
-	    String query = "SELECT * FROM fastfood WHERE fastFoodId = ?";
+	public fastfood getfastFoodById(int id) {
+	    fastfood fastFood = null; 
+	    String query = "SELECT * FROM mon_an WHERE id = ?";
 	    try {
 	        PreparedStatement pst = connect.prepareStatement(query);
 	        pst.setInt(1, id); 
 	        ResultSet res = pst.executeQuery();
 
 	        if (res.next()) {
-	            fastFood = new fastFood(
+	            fastFood = new fastfood(
 	                res.getInt(1), 
 	                res.getString(2),        
 	                res.getString(3),
@@ -107,15 +108,15 @@ public class fastFoodDAO implements DAOInterface<fastFood>{
 	    return fastFood; 
 	}
 	
-	public ArrayList<fastFood> getFastFoodByCategory(int categoryId) {
-		ArrayList<fastFood> fastFoodArrayList = new ArrayList<fastFood>();
+	public ArrayList<fastfood> getFastFoodByCategory(int categoryId) {
+		ArrayList<fastfood> fastFoodArrayList = new ArrayList<fastfood>();
 		try {
-			String sqlQuery = "SELECT* FROM fastFood WHERE categoryId = ?";
+			String sqlQuery = "SELECT* FROM mon_an WHERE ma_danh_muc = ?";
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			pst.setInt(1, categoryId);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				fastFood fastFood = new fastFood(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getFloat(5), res.getInt(6));
+				fastfood fastFood = new fastfood(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getFloat(5), res.getInt(6));
 				fastFoodArrayList.add(fastFood);
 			}
 		} catch (SQLException e) {

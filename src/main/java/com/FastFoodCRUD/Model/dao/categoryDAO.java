@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.FastFoodCRUD.Model.bean.category;
-import com.FastFoodCRUD.Model.bean.fastFood;
 import com.FastFoodCRUD.Model.dao.ConnectDatabase;
 
 public class categoryDAO implements DAOInterface<category>{
@@ -23,7 +22,7 @@ public class categoryDAO implements DAOInterface<category>{
 
 	@Override
 	public void Insert(category category) {
-		String query = "insert into category(categoryName) value(?)";
+		String query = "insert into danh_muc(ten_danh_muc) value(?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setString(1, category.getCategoryName());
@@ -35,7 +34,7 @@ public class categoryDAO implements DAOInterface<category>{
 
 	@Override
 	public void Update(category category) {
-		String query = "UPDATE category SET categoryName = ? WHERE categoryId = ?";
+		String query = "UPDATE danh_mucs SET ten_danh_muc = ? WHERE ma_danh_muc = ?";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setString(1, category.getCategoryName());
@@ -48,7 +47,7 @@ public class categoryDAO implements DAOInterface<category>{
 
 	@Override
 	public void Delete(category category) {
-		String query = "DELETE from category where categoryId = ?";
+		String query = "DELETE from danh_muc where ma_danh_muc = ?";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setInt(1, category.getCategoryId());
@@ -62,7 +61,7 @@ public class categoryDAO implements DAOInterface<category>{
 	public ArrayList<category> getAll() {
 		ArrayList<category> categoryArrayList = new ArrayList<category>();
 		try {
-			String sqlQuery = "SELECT* FROM category";
+			String sqlQuery = "SELECT* FROM danh_muc";
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
@@ -77,7 +76,7 @@ public class categoryDAO implements DAOInterface<category>{
 	
 	public category getCategoryById(int id) {
 	    category category = null; 
-	    String query = "SELECT * FROM category WHERE categoryId = ?";
+	    String query = "SELECT * FROM danh_muc WHERE ma_danh_muc = ?";
 	    try {
 	        PreparedStatement pst = connect.prepareStatement(query);
 	        pst.setInt(1, id); 
