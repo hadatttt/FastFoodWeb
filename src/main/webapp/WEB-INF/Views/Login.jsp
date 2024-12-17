@@ -17,18 +17,18 @@
     </div>
 
     <!-- Login Form -->
-    <div id="loginForm" class="container max-w-md mx-auto p-6 mt-20">
+    <div id="loginForm" class="container max-w-md mx-auto p-6 mt-20" >
         <div class="bg-white bg-opacity-95 rounded-lg shadow-lg p-8">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold text-gray-800">Login</h2>
             </div>
             
-            <form class="space-y-6">
+            <form class="space-y-6" action="/FastFoodCRUD/login" method="POST">
                 <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
                     <div class="relative">
                         <i class="fas fa-envelope absolute text-gray-500 top-3 left-3"></i>
-                        <input type="email" id="email" class="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500" placeholder="Enter your email" required>
+                        <input type="text" id="username" name="username" class="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500" placeholder="Enter your Username" required>
                     </div>
                 </div>
                 
@@ -36,7 +36,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
                     <div class="relative">
                         <i class="fas fa-lock absolute text-gray-500 top-3 left-3"></i>
-                        <input type="password" id="password" class="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500" placeholder="Enter your password" required>
+                        <input type="password" id="password" name="password" class="w-full pl-10 pr-10 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500" placeholder="Enter your password" required>
                         <button type="button" class="absolute top-3 right-3 text-gray-500" onclick="togglePassword('password')"><i class="fas fa-eye"></i></button>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <a href="#" class="text-sm text-orange-500 hover:text-orange-600">Forgot Password?</a>
                 </div>
                 
-                <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300">Login</button>
+                <input type="submit" class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300" value="Login">
                 
                 <p class="text-center text-sm text-gray-600">Don't have an account? 
                     <a href="#" onclick="toggleForms()" class="text-orange-500 hover:text-orange-600">Register here</a>

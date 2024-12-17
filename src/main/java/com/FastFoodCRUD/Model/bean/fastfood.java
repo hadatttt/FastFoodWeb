@@ -7,7 +7,19 @@ public class fastfood {
 	private String description;
 	private float price;
 	private int categoryId;
+	private String category;
 	
+	public fastfood(int fastFoodId, String imgUrl, String fastFoodName, String description, float price,
+			String category) {
+		super();
+		this.fastFoodId = fastFoodId;
+		this.imgUrl = imgUrl;
+		this.fastFoodName = fastFoodName;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+	}
+
 	public fastfood(int fastFoodId, String imgUrl, String fastFoodName, String description, float price, int categoryId) {
 		this.fastFoodId = fastFoodId;
 		this.imgUrl = imgUrl;

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.FastFoodCRUD.Model.bean.category;
@@ -23,18 +24,18 @@ public class orderDAO implements DAOInterface<order>{
 	@Override
 	public void Insert(order order) {
 		String query = "insert into don_hang"
-				+ "(id_nguoi_dung, ma_cart, tong_tien, dia_chi, thoi_gian, status, id_nhan_vien)"
-				+ " value(?,?,?,?,?,?,?)";
+				+ "(id_nguoi_dung, ma_cart, tong_tien, dia_chi, thoi_gian, status)"
+				+ " values(?,?,?,?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setInt(1, order.getUserId());
-			pst.setInt(2, order.getCartId());
+			pst.setString(2, order.getCartId());
 			pst.setFloat(3, order.getTotal());
 			pst.setString(4, order.getAddress());
-			pst.setDate(5, order.getTime());
+			pst.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 			pst.setString(6, order.getStatus());
-			pst.setInt(7, order.getEmployeeId());
 			pst.executeUpdate();
+			System.out.println("tới đây");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +49,7 @@ public class orderDAO implements DAOInterface<order>{
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setInt(1, order.getUserId());
-			pst.setInt(2, order.getCartId());
+			pst.setString(2, order.getCartId());
 			pst.setFloat(3, order.getTotal());
 			pst.setString(4, order.getAddress());
 			pst.setDate(5, order.getTime());
@@ -81,7 +82,8 @@ public class orderDAO implements DAOInterface<order>{
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				order order = new order(res.getInt(1), res.getInt(2), res.getInt(3), res.getFloat(4), res.getString(5), res.getDate(6), res.getString(7), res.getInt(8));
+				order order = new order(res.getInt(1), res.getInt(2), res.getString(3), res.getFloat(4), res.getString(5), res.getDate(6), res.getString(7), res.getInt(8));
+				order.setT(res.getTime("thoi_gian"));
 				orderArrayList.add(order);
 			}
 		} catch (SQLException e) {

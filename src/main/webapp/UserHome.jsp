@@ -1,3 +1,4 @@
+<%@page import="com.FastFoodCRUD.Model.bean.user"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,6 +20,13 @@
                     <a href="#" class="text-gray-600 hover:text-orange-500">Menu</a>
                     <a href="#" class="text-gray-600 hover:text-orange-500">About</a>
                     <a href="#" class="text-gray-600 hover:text-orange-500">Contact</a>
+                    <%user USER = (user)request.getSession().getAttribute("USER"); 
+                    	if (USER!=null){
+                    		%>
+                    		<p>WELCOME, <%=USER.getName() %></p>
+                    <% 		
+                    	}
+                    %>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
@@ -32,7 +40,19 @@
                     <button onclick="document.getElementById('cartModal').classList.remove('hidden')" class="text-gray-600 hover:text-orange-500"><i class="fas fa-shopping-cart text-xl"></i></button>
                     <span id="cartCount" class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
                 </div>
-                <button class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">Login</button>
+                <% 
+                	if (USER==null){
+                		%>
+                <a href="/FastFoodCRUD/login" class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">Login</a>
+                	
+                	
+                <% 	}else{
+                	%>
+                
+                <a href="/FastFoodCRUD/login" class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">LogOut</a>
+                <% }
+                	
+                %>
             </div>
         </nav>
     </header>
@@ -62,7 +82,7 @@
                 <button onclick="document.getElementById('paymentModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500"><i class="fas fa-times"></i></button>
             </div>
             <div class="mt-4">
-                <form id="paymentForm" onsubmit="processPayment(event)" class="space-y-4">
+                <form id="paymentForm" action="home" method="POST" class="space-y-4">
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">Payment Method</label>
                         <div class="space-y-2">
@@ -77,6 +97,10 @@
                         </div>
                     </div>
                     <div id="cardDetails">
+                    	<div class="mb-3">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Địa chỉ</label>
+                            <input type="text" placeholder="10, Lê Ngô Cát" name="address" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" maxlength="19" required>
+                        </div>
                         <div class="mb-3">
                             <label class="block text-gray-700 text-sm font-bold mb-2">Card Number</label>
                             <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" maxlength="19" required>
@@ -97,6 +121,7 @@
                             <span class="font-semibold">Total Amount:</span>
                             <span id="paymentTotal" class="font-bold text-orange-500"></span>
                         </div>
+                   		
                         <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600">Complete Payment</button>
                     </div>
                 </form>
@@ -153,29 +178,29 @@
 
         const menuItems = {
             burgers: [
-                { name: "Classic Burger", price: 8.99, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", description: "Juicy beef patty with fresh vegetables" },
-                { name: "Cheese Burger", price: 9.99, image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90", description: "Classic burger with melted cheese" },
-                { name: "Double Burger", price: 12.99, image: "https://images.unsplash.com/photo-1553979459-d2229ba7433b", description: "Double patty with extra toppings" }
+                {id:1, name: "Classic Burger", price: 8.99, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", description: "Juicy beef patty with fresh vegetables" },
+                {id:2, name: "Cheese Burger", price: 9.99, image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90", description: "Classic burger with melted cheese" },
+                {id:3, name: "Double Burger", price: 12.99, image: "https://images.unsplash.com/photo-1553979459-d2229ba7433b", description: "Double patty with extra toppings" }
             ],
             pizza: [
-                { name: "Pepperoni Pizza", price: 12.99, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", description: "Classic pizza with pepperoni toppings" },
-                { name: "Margherita Pizza", price: 10.99, image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002", description: "Traditional Italian pizza" },
-                { name: "Vegetarian Pizza", price: 11.99, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591", description: "Fresh vegetables on crispy crust" }
+                {id:4, name: "Pepperoni Pizza", price: 12.99, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", description: "Classic pizza with pepperoni toppings" },
+                {id:5, name: "Margherita Pizza", price: 10.99, image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002", description: "Traditional Italian pizza" },
+                {id:6, name: "Vegetarian Pizza", price: 11.99, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591", description: "Fresh vegetables on crispy crust" }
             ],
             sides: [
-                { name: "French Fries", price: 4.99, image: "https://images.unsplash.com/photo-1619747175439-e81fb03e5dda", description: "Crispy golden fries with seasoning" },
-                { name: "Onion Rings", price: 5.99, image: "https://images.unsplash.com/photo-1639024471283-03518883512d", description: "Crispy battered onion rings" },
-                { name: "Chicken Wings", price: 8.99, image: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7", description: "Spicy buffalo wings" }
+                {id:7, name: "French Fries", price: 4.99, image: "https://images.unsplash.com/photo-1619747175439-e81fb03e5dda", description: "Crispy golden fries with seasoning" },
+                {id:8, name: "Onion Rings", price: 5.99, image: "https://images.unsplash.com/photo-1639024471283-03518883512d", description: "Crispy battered onion rings" },
+                {id:9, name: "Chicken Wings", price: 8.99, image: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7", description: "Spicy buffalo wings" }
             ],
             drinks: [
-                { name: "Cola", price: 2.99, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97", description: "Classic cola drink" },
-                { name: "Milkshake", price: 4.99, image: "https://images.unsplash.com/photo-1577805947697-89e18249d767", description: "Creamy vanilla milkshake" },
-                { name: "Lemonade", price: 3.99, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859", description: "Fresh squeezed lemonade" }
+                {id:10, name: "Cola", price: 2.99, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97", description: "Classic cola drink" },
+                {id:11, name: "Milkshake", price: 4.99, image: "https://images.unsplash.com/photo-1577805947697-89e18249d767", description: "Creamy vanilla milkshake" },
+                {id:12, name: "Lemonade", price: 3.99, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859", description: "Fresh squeezed lemonade" }
             ],
             desserts: [
-                { name: "Ice Cream", price: 4.99, image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb", description: "Vanilla ice cream with toppings" },
-                { name: "Chocolate Cake", price: 6.99, image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587", description: "Rich chocolate cake" },
-                { name: "Apple Pie", price: 5.99, image: "https://images.unsplash.com/photo-1621743478914-cc8a86d7e9f4", description: "Homemade apple pie" }
+                {id:13, name: "Ice Cream", price: 4.99, image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb", description: "Vanilla ice cream with toppings" },
+                {id:14, name: "Chocolate Cake", price: 6.99, image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587", description: "Rich chocolate cake" },
+                {id:15, name: "Apple Pie", price: 5.99, image: "https://images.unsplash.com/photo-1621743478914-cc8a86d7e9f4", description: "Homemade apple pie" }
             ]
         };
 
@@ -236,30 +261,66 @@
             foodItems.innerHTML = '';
             
             menuItems[category].forEach(item => {
-                foodItems.innerHTML += `
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold">${item.name}</h3>
-                            <p class="text-gray-600 text-sm mt-1">${item.description}</p>
-                            <div class="mt-4 flex items-center justify-between">
-                                <span class="text-orange-500 font-bold">$${item.price}</span>
-                                <button onclick="addToCart('${item.name}', ${item.price}, '${item.image}')" class="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            	// Tạo div cho mỗi món ăn
+                const foodItemDiv = document.createElement('div');
+                foodItemDiv.classList.add('bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'hover:shadow-lg', 'transition-shadow');
+
+                // Tạo hình ảnh
+                const image = document.createElement('img');
+                image.src = item.image;
+                image.alt = item.name;
+                image.classList.add('w-full', 'h-48', 'object-cover');
+                
+                // Tạo div cho phần mô tả
+                const contentDiv = document.createElement('div');
+                contentDiv.classList.add('p-4');
+
+                // Tạo tiêu đề món ăn
+                const title = document.createElement('h3');
+                title.classList.add('text-lg', 'font-semibold');
+                title.textContent = item.name;
+
+                // Tạo mô tả món ăn
+                const description = document.createElement('p');
+                description.classList.add('text-gray-600', 'text-sm', 'mt-1');
+                description.textContent = item.description;
+
+                // Tạo phần giá và nút thêm vào giỏ hàng
+                const priceAndButtonDiv = document.createElement('div');
+                priceAndButtonDiv.classList.add('mt-4', 'flex', 'items-center', 'justify-between');
+
+                const price = document.createElement('span');
+                price.classList.add('text-orange-500', 'font-bold');
+                price.textContent = item.price;
+
+                const button = document.createElement('button');
+                button.classList.add('bg-orange-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-orange-600');
+                button.textContent = 'Add to Cart';
+                button.onclick = () => addToCart(item.name, item.price, item.image, item.id);
+
+                // Thêm các phần tử vào foodItemDiv
+                priceAndButtonDiv.appendChild(price);
+                priceAndButtonDiv.appendChild(button);
+                contentDiv.appendChild(title);
+                contentDiv.appendChild(description);
+                contentDiv.appendChild(priceAndButtonDiv);
+                foodItemDiv.appendChild(image);
+                foodItemDiv.appendChild(contentDiv);
+
+                // Thêm phần tử foodItemDiv vào foodItems
+                foodItems.appendChild(foodItemDiv);
             });
+            	
         }
 
         showCategory('burgers');
 
-        function addToCart(name, price, image) {
+        function addToCart(name, price, image,id) {
             const existingItem = cart.find(item => item.name === name);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ name, price, image, quantity: 1 });
+                cart.push({ name, price, image, id, quantity: 1 });
             }
             total += price;
             updateCart();
@@ -290,28 +351,74 @@
 
             cart.forEach(item => {
                 totalQuantity += item.quantity;
-                cartItems.innerHTML += `
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <img src="${item.image}" class="w-16 h-16 object-cover rounded">
-                            <div>
-                                <h4 class="text-sm font-medium">${item.name}</h4>
-                                <p class="text-sm text-gray-500">$${item.price}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="removeFromCart('${item.name}', ${item.price})" class="text-gray-500 hover:text-gray-600">-</button>
-                            <span class="text-gray-600">${item.quantity}</span>
-                            <button onclick="addToCart('${item.name}', ${item.price}, '${item.image}')" class="text-gray-500 hover:text-gray-600">+</button>
-                        </div>
-                    </div>
-                `;
+             // Tạo div chứa toàn bộ thông tin về món ăn
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('flex', 'items-center', 'justify-between');
+
+                // Tạo div chứa hình ảnh và tên món ăn
+                const itemInfoDiv = document.createElement('div');
+                itemInfoDiv.classList.add('flex', 'items-center', 'space-x-3');
+
+                // Tạo hình ảnh
+                const image = document.createElement('img');
+                image.src = item.image;
+                image.classList.add('w-16', 'h-16', 'object-cover', 'rounded');
+
+                // Tạo tên món ăn và giá
+                const infoDiv = document.createElement('div');
+
+                const name = document.createElement('h4');
+                name.classList.add('text-sm', 'font-medium');
+                name.textContent = item.name;
+
+                const price = document.createElement('p');
+                price.classList.add('text-sm', 'text-gray-500');
+                price.textContent = item.price;
+
+                // Thêm hình ảnh và thông tin món ăn vào itemInfoDiv
+                infoDiv.appendChild(name);
+                infoDiv.appendChild(price);
+                itemInfoDiv.appendChild(image);
+                itemInfoDiv.appendChild(infoDiv);
+
+                // Tạo div cho các nút + và - và hiển thị số lượng
+                const quantityDiv = document.createElement('div');
+                quantityDiv.classList.add('flex', 'items-center', 'space-x-2');
+
+                // Tạo nút giảm số lượng
+                const minusButton = document.createElement('button');
+                minusButton.classList.add('text-gray-500', 'hover:text-gray-600');
+                minusButton.textContent = '-';
+                minusButton.onclick = () => removeFromCart(item.name, item.price);
+
+                // Tạo phần hiển thị số lượng
+                const quantity = document.createElement('span');
+                quantity.classList.add('text-gray-600');
+                quantity.textContent = item.quantity;
+
+                // Tạo nút tăng số lượng
+                const plusButton = document.createElement('button');
+                plusButton.classList.add('text-gray-500', 'hover:text-gray-600');
+                plusButton.textContent = '+';
+                plusButton.onclick = () => addToCart(item.name, item.price, item.image);
+
+                // Thêm nút giảm, số lượng và nút tăng vào quantityDiv
+                quantityDiv.appendChild(minusButton);
+                quantityDiv.appendChild(quantity);
+                quantityDiv.appendChild(plusButton);
+
+                // Thêm itemInfoDiv và quantityDiv vào cartItemDiv
+                cartItemDiv.appendChild(itemInfoDiv);
+                cartItemDiv.appendChild(quantityDiv);
+
+                // Thêm cartItemDiv vào cartItems (phần tử hiển thị giỏ hàng)
+                cartItems.appendChild(cartItemDiv);
             });
 
             cartCount.textContent = totalQuantity;
-            cartTotal.textContent = `$${total.toFixed(2)}`;
+            cartTotal.textContent = total.toFixed(2);
             if(paymentTotal) {
-                paymentTotal.textContent = `$${total.toFixed(2)}`;
+                paymentTotal.textContent = total;
             }
         }
 
@@ -330,18 +437,23 @@
         function showPaymentModal() {
             document.getElementById('cartModal').classList.add('hidden');
             document.getElementById('paymentModal').classList.remove('hidden');
-            document.getElementById('paymentTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('paymentTotal').textContent = total;
+            const paymentForm = document.getElementById('paymentForm');
+            const inputField = document.createElement('input');
+            inputField.type = 'hidden';
+            inputField.name = 'cart';
+            const cartDetails = cart.map(item => item.id+" "+item.quantity+" "+item.price).join(',');
+            inputField.value = cartDetails;
+            paymentForm.appendChild(inputField);
+			console.log(cartDetails);
+			const inputField1 = document.createElement('input');
+            inputField1.type = 'hidden';
+            inputField1.name = 'total';
+            inputField1.value = total;
+            paymentForm.appendChild(inputField1);
         }
 
-        function processPayment(event) {
-            event.preventDefault();
-            alert('Payment processed successfully!');
-            cart = [];
-            total = 0;
-            updateCart();
-            document.getElementById('paymentModal').classList.add('hidden');
-            showNotification('Payment completed successfully!');
-        }
+      
     </script>
 </body>
 </html>

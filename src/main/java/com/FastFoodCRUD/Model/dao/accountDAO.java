@@ -59,7 +59,7 @@ public class accountDAO implements DAOInterface<account>{
 	}
 	
 	public boolean isValidUser(String username, String password) {
-        String query = "SELECT username, pass FROM user WHERE username = ? AND pass = ?";
+        String query = "SELECT username, pass FROM account WHERE username = ? AND pass = ?";
         boolean isValid = false;
 
         try {
@@ -83,6 +83,23 @@ public class accountDAO implements DAOInterface<account>{
 	public ArrayList<account> getAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public String getRoleByIdAccount(int id) {
+		String sql = "select role from account where id_account=?";
+		try {
+			PreparedStatement pstmt = connect.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("role");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 
 }

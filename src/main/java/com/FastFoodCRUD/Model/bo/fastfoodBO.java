@@ -35,7 +35,7 @@ public class fastfoodBO {
 		return fastfoodDAO.getInstance().getfastFoodById(id);
 	}
 	
-	public ArrayList<fastfood> getFastFoodByCategory(int categoryId) {
+	public ArrayList<fastfood> getFastFoodByCategory(String categoryId) {
 		return fastfoodDAO.getInstance().getFastFoodByCategory(categoryId);
 	}
 }

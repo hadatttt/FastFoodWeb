@@ -22,11 +22,12 @@ public class cartDAO implements DAOInterface<cart>{
 
 	@Override
 	public void Insert(cart cart) {
-		String query = "insert into cart(ma_mon_an, so_luong) value(?,?)";
+		String query = "insert into cart(ma_cart, ma_mon_an, so_luong) values(?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
-			pst.setInt(1, cart.getFastfoodId());
-			pst.setInt(2, cart.getQuantity());
+			pst.setString(1, cart.getCartId());
+			pst.setInt(2, cart.getFastfoodId());
+			pst.setInt(3, cart.getQuantity());
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -41,7 +42,7 @@ public class cartDAO implements DAOInterface<cart>{
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setInt(1, cart.getFastfoodId());
 			pst.setInt(2, cart.getQuantity());
-			pst.setInt(3, cart.getCartId());
+			pst.setString(3, cart.getCartId());
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -54,7 +55,7 @@ public class cartDAO implements DAOInterface<cart>{
 		String query = "DELETE from cart where ma_cart = ?";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
-			pst.setInt(1, cart.getCartId());
+			pst.setString(1, cart.getCartId());
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -69,7 +70,7 @@ public class cartDAO implements DAOInterface<cart>{
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				cart cart = new cart(res.getInt(1), res.getInt(2), res.getInt(3));
+				cart cart = new cart(res.getString(1), res.getInt(2), res.getInt(3));
 				cartArrayList.add(cart);
 			}
 		} catch (SQLException e) {

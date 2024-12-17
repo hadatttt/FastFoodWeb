@@ -1,3 +1,7 @@
+<%@page import="com.FastFoodCRUD.Model.dao.userDAO"%>
+<%@page import="com.FastFoodCRUD.Model.bo.userBO"%>
+<%@page import="com.FastFoodCRUD.Model.bean.order"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,6 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-orange-50">
+	<%	ArrayList<order> listOrder = (ArrayList<order>)request.getAttribute("listOrder"); %>
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-lg p-6">
             <div class="flex items-center justify-between mb-6">
@@ -30,36 +35,29 @@
                         </tr>
                     </thead>
                     <tbody id="orderTableBody">
-                        <tr class="border-b hover:bg-orange-50">
-                            <td class="px-4 py-3">#ORD001</td>
-                            <td class="px-4 py-3">John Doe</td>
+                    <%
+                    	if (!listOrder.isEmpty()){
+	                    	for (order o:listOrder){
+                    		
+                    	
+                    		%>
+                    		<tr class="border-b hover:bg-orange-50">
+                            <td class="px-4 py-3"><%= o.getOrderId() %></td>
+                            <td class="px-4 py-3"><%=userDAO.getInstance().getNameById(o.getUserId()) %></td>
                             <td class="px-4 py-3">2x Burger, 1x Fries</td>
-                            <td class="px-4 py-3">$25.99</td>
-                            <td class="px-4 py-3">10:30 AM</td>
+                            <td class="px-4 py-3"><%= o.getTotal() %></td>
+                            <td class="px-4 py-3"><%= o.getT().toString() %></td>
                             <td class="px-4 py-3">
-                                <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition duration-200" onclick="approveOrder(this)">Approve</button>
+                                <a class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition duration-200 cursor-pointer" onclick="approveOrder(this)" >Approve</a>
                             </td>
                         </tr>
-                        <tr class="border-b hover:bg-orange-50">
-                            <td class="px-4 py-3">#ORD002</td>
-                            <td class="px-4 py-3">Sarah Smith</td>
-                            <td class="px-4 py-3">1x Pizza, 2x Coke</td>
-                            <td class="px-4 py-3">$32.50</td>
-                            <td class="px-4 py-3">11:15 AM</td>
-                            <td class="px-4 py-3">
-                                <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition duration-200" onclick="approveOrder(this)">Approve</button>
-                            </td>
-                        </tr>
-                        <tr class="border-b hover:bg-orange-50">
-                            <td class="px-4 py-3">#ORD003</td>
-                            <td class="px-4 py-3">Mike Johnson</td>
-                            <td class="px-4 py-3">3x Tacos, 1x Salad</td>
-                            <td class="px-4 py-3">$18.75</td>
-                            <td class="px-4 py-3">11:45 AM</td>
-                            <td class="px-4 py-3">
-                                <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition duration-200" onclick="approveOrder(this)">Approve</button>
-                            </td>
-                        </tr>
+                    		
+                    <% 		
+                    		}
+                    	}
+                    %>
+                        
+                       
                     </tbody>
                 </table>
             </div>

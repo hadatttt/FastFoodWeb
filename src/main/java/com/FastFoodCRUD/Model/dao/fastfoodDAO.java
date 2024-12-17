@@ -108,15 +108,22 @@ public class fastfoodDAO implements DAOInterface<fastfood>{
 	    return fastFood; 
 	}
 	
-	public ArrayList<fastfood> getFastFoodByCategory(int categoryId) {
+	
+	public ArrayList<fastfood> getFastFoodByCategory(String category) {
 		ArrayList<fastfood> fastFoodArrayList = new ArrayList<fastfood>();
 		try {
-			String sqlQuery = "SELECT* FROM mon_an WHERE ma_danh_muc = ?";
+			String sqlQuery = "SELECT * FROM mon_an ma inner join danh_muc dm on ma.ma_danh_muc=dm.ma_danh_muc  WHERE dm.ten_danh_muc = ?";
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
-			pst.setInt(1, categoryId);
+			pst.setString(1, category);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				fastfood fastFood = new fastfood(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getFloat(5), res.getInt(6));
+				int id= res.getInt("id");
+				String ten_mon = res.getString("ten_mon");
+				String mota = res.getString("mo_ta");
+				float price = res.getFloat("phi");
+				String categoryname = res.getString("ten_danh_muc");
+				String img =res.getString("img");
+				fastfood fastFood = new fastfood(id, img, ten_mon, mota, price, categoryname);
 				fastFoodArrayList.add(fastFood);
 			}
 		} catch (SQLException e) {

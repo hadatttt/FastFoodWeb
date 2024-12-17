@@ -1,17 +1,26 @@
 package com.FastFoodCRUD.Model.bean;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class order {
 	private int orderId;
 	private int userId;
-	private int cartId;
+	private String cartId;
 	private float total;
 	private String address;
 	private Date time;
 	private String status;
 	private int employeeId;
-	public order(int orderId, int userId, int cartId, float total, String address, Date time, String status, int employeeId) {
+	private Time t;
+	
+	public Time getT() {
+		return t;
+	}
+	public void setT(Time t) {
+		this.t = t;
+	}
+	public order(int orderId, int userId, String cartId, float total, String address, Date time, String status, int employeeId) {
 		this.orderId = orderId;
 		this.userId = userId;
 		this.cartId = cartId;
@@ -27,7 +36,7 @@ public class order {
 	public int getUserId() {
 		return this.userId;
 	}
-	public int getCartId() {
+	public String getCartId() {
 		return this.cartId;
 	}
 	public float getTotal() {

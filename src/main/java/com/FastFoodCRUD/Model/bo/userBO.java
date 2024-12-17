@@ -21,4 +21,7 @@ public class userBO {
 	public void delete(user user) {
 		userDAO.getInstance().Delete(user);
 	}
+	public user getUserByUserName(String name) {
+		return userDAO.getInstance().getUserByUserName(name);
+	}
 }
