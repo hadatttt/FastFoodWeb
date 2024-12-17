@@ -75,8 +75,8 @@ public class fastfoodDAO implements DAOInterface<fastfood>{
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				fastfood employee = new fastfood(res.getInt(1), res.getString(2), res.getString(3), res.getString(4), res.getFloat(5), res.getInt(6));
-				fastFoodArrayList.add(employee);
+				fastfood fastfood = new fastfood(res.getInt(1), res.getString(2), res.getString(3), res.getFloat(4), res.getInt(5), res.getString(6));
+				fastFoodArrayList.add(fastfood);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,9 +97,9 @@ public class fastfoodDAO implements DAOInterface<fastfood>{
 	                res.getInt(1), 
 	                res.getString(2),        
 	                res.getString(3),
-	                res.getString(3),
-	                res.getFloat(5),
-	                res.getInt(6)
+	                res.getFloat(4),
+	                res.getInt(5),
+	                res.getString(6)
 	            );
 	        }
 	    } catch (SQLException e) {
@@ -117,6 +117,7 @@ public class fastfoodDAO implements DAOInterface<fastfood>{
 			pst.setString(1, category);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
+
 				int id= res.getInt("id");
 				String ten_mon = res.getString("ten_mon");
 				String mota = res.getString("mo_ta");

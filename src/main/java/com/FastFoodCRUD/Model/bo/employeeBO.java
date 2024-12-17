@@ -1,6 +1,7 @@
 package com.FastFoodCRUD.Model.bo;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.FastFoodCRUD.Model.bean.employee;
 import com.FastFoodCRUD.Model.dao.employeeDAO;

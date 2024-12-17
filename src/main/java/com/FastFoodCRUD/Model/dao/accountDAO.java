@@ -20,7 +20,7 @@ public class accountDAO implements DAOInterface<account>{
 	}
 	@Override
 	public void Insert(account account) {
-		String query = "insert account account(username,pass,role) value(?,?,?)";
+		String query = "insert into account(username,pass,role) value(?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setString(1, account.getUsername());

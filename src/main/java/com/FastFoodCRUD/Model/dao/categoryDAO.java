@@ -65,8 +65,8 @@ public class categoryDAO implements DAOInterface<category>{
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				category cateogory = new category(res.getInt(1), res.getString(2));
-				categoryArrayList.add(cateogory);
+				category category = new category(res.getInt(1), res.getString(2));
+				categoryArrayList.add(category);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -43,7 +43,7 @@ public class orderDAO implements DAOInterface<order>{
 
 	@Override
 	public void Update(order order) {
-		String query = "UPDATE donhang"
+		String query = "UPDATE don_hang"
 				+ " SET id_nguoi_dung = ?, ma_cart = ?, tong_tien = ?, dia_chi = ?, thoi_gian = ?, status = ?, id_nhan_vien = ?"
 				+ " WHERE ma_don_hang = ?";
 		try {
