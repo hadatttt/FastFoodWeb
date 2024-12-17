@@ -1,20 +1,20 @@
-package com.FastFoodCRUD.Model.bean;
+	package com.FastFoodCRUD.Model.bean;
 
 public class fastfood {
 	private int fastFoodId;
-	private String imgUrl;
 	private String fastFoodName;
 	private String description;
 	private float price;
 	private int categoryId;
+	private String imgUrl;
 	
-	public fastfood(int fastFoodId, String imgUrl, String fastFoodName, String description, float price, int categoryId) {
+	public fastfood(int fastFoodId, String fastFoodName, String description, float price, int categoryId, String imgUrl) {
 		this.fastFoodId = fastFoodId;
-		this.imgUrl = imgUrl;
 		this.fastFoodName = fastFoodName;
 		this.description = description;
 		this.price = price;
 		this.categoryId = categoryId;
+		this.imgUrl = imgUrl;
 	}
 	
 	public int getFastFoodId() {

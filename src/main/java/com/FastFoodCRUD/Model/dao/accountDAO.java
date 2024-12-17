@@ -20,7 +20,7 @@ public class accountDAO implements DAOInterface<account>{
 	}
 	@Override
 	public void Insert(account account) {
-		String query = "insert account account(username,pass,role) value(?,?,?)";
+		String query = "insert into account(username,pass,role) value(?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setString(1, account.getUsername());
@@ -59,7 +59,7 @@ public class accountDAO implements DAOInterface<account>{
 	}
 	
 	public boolean isValidUser(String username, String password) {
-        String query = "SELECT username, pass FROM user WHERE username = ? AND pass = ?";
+        String query = "SELECT username, pass FROM account WHERE username = ? AND pass = ?";
         boolean isValid = false;
 
         try {
